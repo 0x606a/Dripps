@@ -18,4 +18,17 @@ contract DrippsHub {
 
     /// Participants
     mapping(uint => address) praticipants;
+
+    function createEvent() public returns(bool) {
+        ///
+    }
+
+    function applyEvent(uint _eventId) public returns(uint) {
+        ///
+    }
+
+    function attendEvent(uint _eventId) public returns(bool) {
+        ///
+    }
+
 }

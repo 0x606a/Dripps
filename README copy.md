@@ -24,7 +24,7 @@ You can get a private key from a wallet provider [such as Metamask](https://meta
 
 Add your private key as an environment variable by running this command: 
  
- ```
+```
 export PRIVATE_KEY='abcdef'
 ```
 
@@ -56,7 +56,7 @@ Go to the [Wallaby faucet](https://wallaby.network/#faucet), and paste in the f4
 
 Type in the following command in the terminal: 
  
- ```
+```
 yarn hardhat deploy
 ```
 

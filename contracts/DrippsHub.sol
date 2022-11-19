@@ -26,6 +26,9 @@ contract DrippsHub {
 
     function createEvent(uint _time, uint _capacity, string memory _metadata) public returns(uint) {
         
+        require(_time >= block.timestamp, "ER01");
+        require(_capacity > 0, "ER02");
+        
         uint eventId = _eventIdCounter.current();
 
         events[eventId] = Event(msg.sender, _time, _capacity, _metadata);

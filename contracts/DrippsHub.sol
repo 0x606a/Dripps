@@ -12,20 +12,27 @@ contract DrippsHub {
     /// Event stract
     struct Event {
         address host;
-        uint capacity;
         uint time;
+        uint capacity;
         string metadata;
+        // address[] praticipants;
     }
 
     /// Events mapping
     mapping(uint => Event) events;
 
     /// Participants
-    mapping(uint => address) praticipants;
+    mapping(uint => address[]) praticipants;
 
-    function createEvent() public returns(bool) {
-        ///
+    function createEvent(uint _time, uint _capacity, string memory _metadata) public returns(uint) {
+        
+        uint eventId = _eventIdCounter.current();
+
+        events[eventId] = Event(msg.sender, _time, _capacity, _metadata);
+        
         _eventIdCounter.increment();
+
+        return eventId;
     }
 
     function applyEvent(uint _eventId) public returns(uint) {

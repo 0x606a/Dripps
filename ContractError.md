@@ -13,3 +13,11 @@ Can not apply for the event. Event is over.
 ER04
 applyEvent()
 Can not apply for the event. Event capacity is reached out. Reached max amount for participants.
+
+ER05
+attendEvent()
+Can not attend for the event. Event time has not come yet.
+
+ER06
+attendEvent()
+Can not attend for the event. Not the ticketId owner.

@@ -15,15 +15,18 @@ contract DrippsHub {
         uint time;
         uint capacity;
         string metadata;
-        // address[] applicants;
     }
 
     /// Events mapping
     mapping(uint => Event) events;
 
-    /// Participants
+    /// Applicants - those who got access token to the event
+    mapping(uint => address[]) applicants;
     mapping(uint => address[]) applicants;
 
+    /// Participants - those who presented themself on event
+    mapping(uint => address[]) participants;
+    
     event EventCreated();
     event NewApplicant();
     event NewParticipant();
@@ -60,8 +63,20 @@ contract DrippsHub {
         return ticketId;
     }
 
-    function attendEvent(uint _eventId) public returns(bool) {
-        ///
+    function attendEvent(uint _eventId, uint _ticketId) public returns(bool) {
+        
+        /// Check that event time came
+        require(block.timestamp > events[_eventId].time, "ER05");
+
+        /// Check that caller is owner of _ticketId
+        require(applicants[_eventId][_ticketId] == msg.sender, "ER06");
+
+        /// Check that caller is not on participants list yet
+
+        /// Add caller to participants list. Access to POAP minting.
+        participants[_eventId].push(msg.sender);
+
+        return true;
     }
 
 }

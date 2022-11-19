@@ -1,9 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
+import "@openzeppelin/contracts/utils/Counters.sol";
+
 contract DrippsHub {
-    
+    using Counters for Counters.Counter;
+
     /// Event ID counter
+    Counters.Counter private _eventIdCounter;
 
     /// Event stract
     struct Event {
@@ -21,6 +25,7 @@ contract DrippsHub {
 
     function createEvent() public returns(bool) {
         ///
+        _eventIdCounter.increment();
     }
 
     function applyEvent(uint _eventId) public returns(uint) {

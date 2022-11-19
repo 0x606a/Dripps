@@ -20,11 +20,10 @@ contract DrippsHub {
     /// Events mapping
     mapping(uint => Event) events;
 
-    /// Applicants - those who got access token to the event
-    // mapping(uint => address[]) applicants;
-    mapping(uint => address[]) applicantsByTicket;
-    // mapping(uint => mapping(uint => address)) applicants;
-    mapping(uint => mapping(address => uint)) ticketsByAddr;
+    /// Currently used for apllicants count
+    mapping(uint => address[]) public applicantsByTicket;
+    /// TicketIds of applicants
+    mapping(uint => mapping(address => uint)) public ticketsByAddr;
 
     /// Participants - those who presented themself on event
     // mapping(uint => address[]) participants;

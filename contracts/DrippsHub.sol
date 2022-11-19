@@ -21,11 +21,14 @@ contract DrippsHub {
     mapping(uint => Event) events;
 
     /// Applicants - those who got access token to the event
-    mapping(uint => address[]) applicants;
-    mapping(uint => address[]) applicants;
+    // mapping(uint => address[]) applicants;
+    mapping(uint => address[]) applicantsByTicket;
+    // mapping(uint => mapping(uint => address)) applicants;
+    mapping(uint => mapping(address => uint)) ticketsByAddr;
 
     /// Participants - those who presented themself on event
-    mapping(uint => address[]) participants;
+    // mapping(uint => address[]) participants;
+    mapping(uint => mapping(address => bool)) participants;
     
     event EventCreated();
     event NewApplicant();
@@ -51,30 +54,37 @@ contract DrippsHub {
         require(events[_eventId].time >= block.timestamp, "ER03");
         
         /// Check that event capacity is not reached
-        uint ticketId = applicants[_eventId].length;
-        require(events[_eventId].capacity > ticketId, "ER04");
+        uint currentParticipantsAmount = applicantsByTicket[_eventId].length;
+        require(events[_eventId].capacity > currentParticipantsAmount, "ER04");
+
+        /// Check that caller is not applicant yet
+        require(ticketsByAddr[_eventId][msg.sender] == uint(0), "ER05");
 
         /// Check payement
         /// Apply donation
 
         /// Add caller to applicants list
-        applicants[_eventId].push(msg.sender);
+        applicantsByTicket[_eventId].push(msg.sender);
+        /// Make sure TicketId count starts from 1, since it's part of our logic verification
+        ticketsByAddr[_eventId][msg.sender] = currentParticipantsAmount + 1;
 
-        return ticketId;
+        /// Return ticketId
+        return currentParticipantsAmount + 1;
     }
 
-    function attendEvent(uint _eventId, uint _ticketId) public returns(bool) {
+    function attendEvent(uint _eventId) public returns(bool) {
         
         /// Check that event time came
-        require(block.timestamp > events[_eventId].time, "ER05");
+        require(block.timestamp > events[_eventId].time, "ER06");
 
-        /// Check that caller is owner of _ticketId
-        require(applicants[_eventId][_ticketId] == msg.sender, "ER06");
-
+        /// Check that caller is applicant
+        require(ticketsByAddr[_eventId][msg.sender] != uint(0), "ER07");
+        
         /// Check that caller is not on participants list yet
+        require(!participants[_eventId][msg.sender], "ER08");
 
-        /// Add caller to participants list. Access to POAP minting.
-        participants[_eventId].push(msg.sender);
+        /// Add caller to participants list (Access to POAP minting)
+        participants[_eventId][msg.sender] = true;
 
         return true;
     }

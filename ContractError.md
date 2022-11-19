@@ -15,9 +15,17 @@ applyEvent()
 Can not apply for the event. Event capacity is reached out. Reached max amount for participants.
 
 ER05
-attendEvent()
-Can not attend for the event. Event time has not come yet.
+applyEvent()
+Can not apply for the event. Already applicant of the event.
 
 ER06
 attendEvent()
-Can not attend for the event. Not the ticketId owner.
+Can not attend for the event. Event time has not come yet.
+
+ER07
+attendEvent()
+Can not attend for the event. Not an applicant of the event.
+
+ER08
+attendEvent()
+Can not attend for the event. Already participant.

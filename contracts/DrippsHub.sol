@@ -27,7 +27,7 @@ contract DrippsHub {
 
     /// Participants - those who presented themself on event
     // mapping(uint => address[]) participants;
-    mapping(uint => mapping(address => bool)) participants;
+    mapping(uint => mapping(address => bool)) public participants;
     
     event EventCreated();
     event NewApplicant();

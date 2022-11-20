@@ -26,12 +26,11 @@ contract DrippsHub {
     mapping(uint => mapping(address => uint)) public ticketsByAddr;
 
     /// Participants - those who presented themself on event
-    // mapping(uint => address[]) participants;
     mapping(uint => mapping(address => bool)) public participants;
     
-    event EventCreated();
-    event NewApplicant();
-    event NewParticipant();
+    event EventCreated(uint indexed id, address indexed host);
+    event NewApplicant(uint indexed id, address indexed applicant);
+    event NewParticipant(uint indexed id, address indexed participant);
 
     function createEvent(uint _time, uint _capacity, string memory _metadata) public returns(uint) {
         
@@ -43,6 +42,8 @@ contract DrippsHub {
         events[eventId] = Event(msg.sender, _time, _capacity, _metadata);
         
         _eventIdCounter.increment();
+
+        emit EventCreated(eventId, msg.sender);
 
         return eventId;
     }
@@ -67,6 +68,8 @@ contract DrippsHub {
         /// Make sure TicketId count starts from 1, since it's part of our logic verification
         ticketsByAddr[_eventId][msg.sender] = currentParticipantsAmount + 1;
 
+        emit NewApplicant(_eventId, msg.sender);
+
         /// Return ticketId
         return currentParticipantsAmount + 1;
     }
@@ -84,6 +87,8 @@ contract DrippsHub {
 
         /// Add caller to participants list (Access to POAP minting)
         participants[_eventId][msg.sender] = true;
+
+        emit NewParticipant(_eventId, msg.sender);
 
         return true;
     }

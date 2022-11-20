@@ -28,3 +28,9 @@ Go to the [Wallaby faucet](https://wallaby.network/#faucet), and paste in the f4
 ```
 yarn hardhat deploy
 ```
+
+### DrippHubs.sol Wallaby address 
+
+```
+0x91F9BDfB04801A1Be903F3731Ef66B49951b9316
+```
